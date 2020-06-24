@@ -1,6 +1,8 @@
 Moshi
 =====
 
+Fork 自 Moshi 增加了一些注释
+
 Moshi is a modern JSON library for Android and Java. It makes it easy to parse JSON into Java
 objects:
 

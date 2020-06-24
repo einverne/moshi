@@ -46,7 +46,8 @@ public final class MultipleFormats {
     System.out.println(cardAdapter.toJson(new Card('5', Suit.CLUBS)));
   }
 
-  /** Handles cards either as strings "5D" or as objects {"suit": "SPADES", "rank": 5}. */
+  /** 兼容多种格式 JSON
+   * Handles cards either as strings "5D" or as objects {"suit": "SPADES", "rank": 5}. */
   public final class MultipleFormatsCardAdapter {
     @ToJson void toJson(JsonWriter writer, Card value,
         @CardString JsonAdapter<Card> stringAdapter) throws IOException {
@@ -56,6 +57,7 @@ public final class MultipleFormats {
     @FromJson Card fromJson(JsonReader reader, @CardString JsonAdapter<Card> stringAdapter,
         JsonAdapter<Card> defaultAdapter) throws IOException {
       if (reader.peek() == JsonReader.Token.STRING) {
+        // 如果 peek 是 STRING 就使用 stringAdapter
         return stringAdapter.fromJson(reader);
       } else {
         return defaultAdapter.fromJson(reader);

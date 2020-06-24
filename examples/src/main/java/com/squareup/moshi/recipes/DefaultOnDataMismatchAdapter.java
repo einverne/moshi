@@ -26,6 +26,10 @@ import java.lang.reflect.Type;
 import java.util.Set;
 import javax.annotation.Nullable;
 
+/**
+ * 自定义 JsonAdapter
+ * @param <T>
+ */
 public final class DefaultOnDataMismatchAdapter<T> extends JsonAdapter<T> {
   private final JsonAdapter<T> delegate;
   private final T defaultValue;
@@ -56,6 +60,13 @@ public final class DefaultOnDataMismatchAdapter<T> extends JsonAdapter<T> {
     delegate.toJson(writer, value);
   }
 
+  /**
+   * 静态工厂方法
+   * @param type Type
+   * @param defaultValue 默认值
+   * @param <T>
+   * @return
+   */
   public static <T> Factory newFactory(final Class<T> type, final T defaultValue) {
     return new Factory() {
       @Override public @Nullable JsonAdapter<?> create(

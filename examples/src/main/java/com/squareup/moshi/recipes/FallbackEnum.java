@@ -62,10 +62,12 @@ final class FallbackEnum {
       }
     };
 
+    // 枚举类型
     final Class<T> enumType;
     final String[] nameStrings;
     final T[] constants;
     final JsonReader.Options options;
+    // 默认值
     final T defaultValue;
 
     FallbackEnumJsonAdapter(Class<T> enumType, T defaultValue) {
@@ -123,6 +125,7 @@ final class FallbackEnum {
         .add(FallbackEnumJsonAdapter.FACTORY)
         .build();
     JsonAdapter<Example> adapter = moshi.adapter(Example.class);
+    // CARS 交通方式不存在，回退到 WALKING
     System.out.println(adapter.fromJson("{\"transportation\":\"CARS\"}"));
   }
 

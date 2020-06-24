@@ -20,6 +20,7 @@ import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.JsonWriter;
 import com.squareup.moshi.Moshi;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import okio.ByteString;
 
 public final class ByteStrings {
@@ -33,6 +34,12 @@ public final class ByteStrings {
 
     ByteString byteString = jsonAdapter.fromJson(json);
     System.out.println(byteString);
+
+    byteString = ByteString.encodeString("This is a test string", StandardCharsets.UTF_8);
+    String encodeJson = jsonAdapter.toJson(byteString);
+    System.out.println(encodeJson);
+    ByteString decodeObject = jsonAdapter.fromJson(encodeJson);
+    System.out.println(decodeObject);
   }
 
   /**

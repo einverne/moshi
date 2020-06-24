@@ -24,6 +24,11 @@ import java.lang.annotation.Retention;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * 自定义修饰符
+ * 下面的例子中 JSON 中以 #ff0000 显示，
+ * 但在 Java Object 中使用 int 来表示
+ */
 public final class CustomQualifier {
   public void run() throws Exception {
     String json = ""

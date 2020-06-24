@@ -19,6 +19,9 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.recipes.models.Player;
 
+/**
+ * 通过注解 @Json 可以自定义 Field 名
+ */
 public final class CustomFieldName {
   public void run() throws Exception {
     String json = ""

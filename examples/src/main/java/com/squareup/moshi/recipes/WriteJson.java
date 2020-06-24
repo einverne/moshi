@@ -25,6 +25,9 @@ import static com.squareup.moshi.recipes.models.Suit.CLUBS;
 import static com.squareup.moshi.recipes.models.Suit.HEARTS;
 import static com.squareup.moshi.recipes.models.Suit.SPADES;
 
+/**
+ * 这是一个最简单的例子，将 {@link BlackjackHand} 序列化成 JSON
+ */
 public final class WriteJson {
   public void run() throws Exception {
     BlackjackHand blackjackHand = new BlackjackHand(

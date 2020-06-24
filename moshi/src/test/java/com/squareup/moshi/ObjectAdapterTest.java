@@ -69,6 +69,7 @@ public final class ObjectAdapterTest {
   }
 
   @Test public void fromJsonReturnsMapsAndLists() throws Exception {
+    // 处理各种泛型
     Map<Object, Object> delivery = new LinkedHashMap<>();
     delivery.put("address", "1455 Market St.");
     Map<Object, Object> pizza = new LinkedHashMap<>();

@@ -81,6 +81,10 @@ public final class Types {
   }
 
   /**
+   * 检查 {@code annotations} 是否包含 {@code jsonQualifier} 注解
+   * 返回不包含 {@code jsonQualifier} 的 subset {@code annotations}
+   * 如果不包含 {@code jsonQualifier} 则返回 null
+   *
    * Checks if {@code annotations} contains {@code jsonQualifier}.
    * Returns the subset of {@code annotations} without {@code jsonQualifier}, or null if {@code
    * annotations} does not contain {@code jsonQualifier}.
@@ -105,6 +109,8 @@ public final class Types {
   }
 
   /**
+   * 返回一个参数化类型
+   *
    * Returns a new parameterized type, applying {@code typeArguments} to {@code rawType}. Use this
    * method if {@code rawType} is not enclosed in another type.
    */
@@ -294,6 +300,12 @@ public final class Types {
     }
   }
 
+  /**
+   * 通过 annotationType 传入 JsonQualifier
+   * @param annotationType
+   * @param <T>
+   * @return
+   */
   @SuppressWarnings("unchecked")
   static <T extends Annotation> T createJsonQualifierImplementation(final Class<T> annotationType) {
     if (!annotationType.isAnnotation()) {

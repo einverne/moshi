@@ -44,6 +44,7 @@ public final class FromJsonWithoutStrings {
     new FromJsonWithoutStrings().run();
   }
 
+  // Json 字符串中的类型
   @SuppressWarnings("checkstyle:membername")
   private static final class EventJson {
     String title;
@@ -51,6 +52,7 @@ public final class FromJsonWithoutStrings {
     String begin_time;
   }
 
+  // 实际想要的类型
   public static final class Event {
     String title;
     String beginDateAndTime;
@@ -63,7 +65,9 @@ public final class FromJsonWithoutStrings {
     }
   }
 
+  // 转换 Adapter
   private static final class EventJsonAdapter {
+    // 被 FromJson 注解的类，需要实现从 EventJson 到 Event 的转换
     @FromJson Event eventFromJson(EventJson eventJson) {
       Event event = new Event();
       event.title = eventJson.title;

@@ -24,6 +24,7 @@ import java.util.List;
 
 public final class ReadJsonList {
   public void run() throws Exception {
+    // 解析一个 List
     String json = ""
         + "[\n"
         + "  {\n"
@@ -42,6 +43,7 @@ public final class ReadJsonList {
 
     Moshi moshi = new Moshi.Builder().build();
 
+    // 参数化类型 List.class Card.class
     Type listOfCardsType = Types.newParameterizedType(List.class, Card.class);
     JsonAdapter<List<Card>> jsonAdapter = moshi.adapter(listOfCardsType);
 

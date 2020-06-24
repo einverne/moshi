@@ -31,6 +31,9 @@ import static com.squareup.moshi.internal.Util.canonicalize;
 import static com.squareup.moshi.internal.Util.jsonAnnotations;
 import static com.squareup.moshi.internal.Util.typeAnnotatedWithAnnotations;
 
+/**
+ * 实现了 JsonAdapter.Factory 来实现两个类型间的转换
+ */
 final class AdapterMethodsFactory implements JsonAdapter.Factory {
   private final List<AdapterMethod> toAdapters;
   private final List<AdapterMethod> fromAdapters;
@@ -108,7 +111,9 @@ final class AdapterMethodsFactory implements JsonAdapter.Factory {
 
     for (Class<?> c = adapter.getClass(); c != Object.class; c = c.getSuperclass()) {
       for (Method m : c.getDeclaredMethods()) {
+        // 获取被 @ToJson 注解的方法
         if (m.isAnnotationPresent(ToJson.class)) {
+          // 构建 AdapterMethod
           AdapterMethod toAdapter = toAdapter(adapter, m);
           AdapterMethod conflicting = get(toAdapters, toAdapter.type, toAdapter.annotations);
           if (conflicting != null) {
@@ -120,6 +125,7 @@ final class AdapterMethodsFactory implements JsonAdapter.Factory {
         }
 
         if (m.isAnnotationPresent(FromJson.class)) {
+          // 被 FromJson 注解的方法
           AdapterMethod fromAdapter = fromAdapter(adapter, m);
           AdapterMethod conflicting = get(fromAdapters, fromAdapter.type, fromAdapter.annotations);
           if (conflicting != null) {
@@ -146,8 +152,11 @@ final class AdapterMethodsFactory implements JsonAdapter.Factory {
    */
   static AdapterMethod toAdapter(Object adapter, Method method) {
     method.setAccessible(true);
+    // 返回值
     final Type returnType = method.getGenericReturnType();
+    // 参数列表
     final Type[] parameterTypes = method.getGenericParameterTypes();
+    // 方法注解
     final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
 
     if (parameterTypes.length >= 2
@@ -216,6 +225,7 @@ final class AdapterMethodsFactory implements JsonAdapter.Factory {
   static AdapterMethod fromAdapter(Object adapter, Method method) {
     method.setAccessible(true);
     final Type returnType = method.getGenericReturnType();
+    // @JsonQualifier
     final Set<? extends Annotation> returnTypeAnnotations = jsonAnnotations(method);
     final Type[] parameterTypes = method.getGenericParameterTypes();
     Annotation[][] parameterAnnotations = method.getParameterAnnotations();
@@ -235,6 +245,7 @@ final class AdapterMethodsFactory implements JsonAdapter.Factory {
       };
 
     } else if (parameterTypes.length == 1 && returnType != void.class) {
+      // 只有一个参数并且返回类型是 void
       // Point pointFromJson(List<Integer> o) {
       final Set<? extends Annotation> qualifierAnnotations
           = jsonAnnotations(parameterAnnotations[0]);
@@ -243,8 +254,10 @@ final class AdapterMethodsFactory implements JsonAdapter.Factory {
           parameterTypes.length, 1, nullable) {
         JsonAdapter<Object> delegate;
 
+        // Override bind method
         @Override public void bind(Moshi moshi, JsonAdapter.Factory factory) {
           super.bind(moshi, factory);
+          // 如果第一个参数类型和返回值类型相同 并且 qualifierAnnotations 等于 returnTypeAnnotations
           delegate = Types.equals(parameterTypes[0], returnType)
               && qualifierAnnotations.equals(returnTypeAnnotations)
               ? moshi.nextAdapter(factory, parameterTypes[0], qualifierAnnotations)
@@ -280,13 +293,18 @@ final class AdapterMethodsFactory implements JsonAdapter.Factory {
     return null;
   }
 
+  // 转换器的方法
   abstract static class AdapterMethod {
+    // 返回值类型
     final Type type;
+    // 返回值注解
     final Set<? extends Annotation> annotations;
     final Object adapter;
+    // 方法自身
     final Method method;
     final int adaptersOffset;
     final JsonAdapter<?>[] jsonAdapters;
+    // 是否允许参数为空
     final boolean nullable;
 
     AdapterMethod(Type type, Set<? extends Annotation> annotations, Object adapter,

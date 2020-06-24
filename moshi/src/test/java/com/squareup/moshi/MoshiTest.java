@@ -575,12 +575,14 @@ public final class MoshiTest {
       assertThat(expected).hasMessage("adapter == null");
     }
     try {
+      // Type 不能为空
       builder.add(null, null);
       fail();
     } catch (IllegalArgumentException expected) {
       assertThat(expected).hasMessage("type == null");
     }
     try {
+      // Adapter 也不能为空
       builder.add(type, null);
       fail();
     } catch (IllegalArgumentException expected) {
@@ -607,6 +609,7 @@ public final class MoshiTest {
   }
 
   @Test public void customJsonAdapter() throws Exception {
+    // 自定义 Adapter，add Type 和 Adapter
     Moshi moshi = new Moshi.Builder()
         .add(Pizza.class, new PizzaAdapter())
         .build();
@@ -653,6 +656,7 @@ public final class MoshiTest {
     JsonAdapter<Pizza> jsonAdapter = moshi.adapter(Pizza.class);
 
     Pizza pizza = new Pizza(15, true);
+    // 这里调用了 indent 缩进两格
     assertThat(jsonAdapter.indent("  ").toJson(pizza)).isEqualTo(""
         + "{\n"
         + "  \"size\": 15,\n"

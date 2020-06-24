@@ -21,6 +21,10 @@ import com.squareup.moshi.ToJson;
 import com.squareup.moshi.recipes.models.Card;
 import com.squareup.moshi.recipes.models.Suit;
 
+/**
+ * 实现一个自定义 Adapter
+ * 提供两个方法 toJson fromJson
+ */
 public final class CardAdapter {
   @ToJson String toJson(Card card) {
     return card.rank + card.suit.name().substring(0, 1);

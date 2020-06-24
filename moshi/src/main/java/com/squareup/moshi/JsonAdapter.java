@@ -29,6 +29,10 @@ import okio.BufferedSink;
 import okio.BufferedSource;
 
 /**
+ * JsonAdapter 是 Moshi 中很重要的部分，这个抽象类提供了 JsonAdapter 必要的一些抽象
+ *
+ * 其中 toJson 和 fromJson 两个方法需要具体实现
+ *
  * Converts Java values to JSON, and JSON values to Java.
  *
  * <p>JsonAdapter instances provided by Moshi are thread-safe, meaning multiple threads can safely
@@ -257,10 +261,14 @@ public abstract class JsonAdapter<T> {
 
   public interface Factory {
     /**
+     * 尝试为注解了 {@code annotations} 的 {@code type} 创建一个 Adapter. 如果创建成功则返回，否则 null
+     *
      * Attempts to create an adapter for {@code type} annotated with {@code annotations}. This
      * returns the adapter if one was created, or null if this factory isn't capable of creating
      * such an adapter.
      *
+     * 在实现时会使用 {@link Moshi#adapter} 来构建其他类型的 Adapter 或者会用 {@link Moshi#nextAdapter}
+     * 来分发
      * <p>Implementations may use {@link Moshi#adapter} to compose adapters of other types, or
      * {@link Moshi#nextAdapter} to delegate to the underlying adapter of the same type.
      */

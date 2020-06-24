@@ -36,6 +36,9 @@ final class Unwrap {
   private Unwrap() {
   }
 
+  /**
+   * 想要使用的具体数据在 data 中，这个 Demo 演示了如何将包装在 data 中的数据解析
+   */
   public static void main(String[] args) throws Exception {
     String json = ""
         + "{\"data\":"
@@ -44,6 +47,7 @@ final class Unwrap {
         + "    \"suit\": \"CLUBS\"\n"
         + "  }"
         + "}";
+    // EnvelopeJsonAdapter.FACTORY 来重新指定 JsonAdapter.Factory
     Moshi moshi = new Moshi.Builder().add(EnvelopeJsonAdapter.FACTORY).build();
     JsonAdapter<Card> adapter = moshi.adapter(Card.class, Enveloped.class);
     Card out = adapter.fromJson(json);
@@ -66,9 +70,16 @@ final class Unwrap {
       }
     };
 
+    /**
+     * 自定义注解
+     */
     @Retention(RUNTIME) @JsonQualifier public @interface Enveloped {
     }
 
+    /**
+     * 包装类
+     * @param <T>
+     */
     private static final class Envelope<T> {
       final T data;
 

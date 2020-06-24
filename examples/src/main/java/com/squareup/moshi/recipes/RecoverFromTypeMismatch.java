@@ -23,8 +23,11 @@ import java.util.List;
 
 public final class RecoverFromTypeMismatch {
   public void run() throws Exception {
+    // 样例数据中的 STARS 不存在，会使用下方的默认值
     String json = "[\"DIAMONDS\", \"STARS\", \"HEARTS\"]";
 
+    // newFactory 方法提供了两个参数，Suit.class 和 Suit.CLUBS 这个默认值
+    // 如果缺失Suit 则使用该默认值
     Moshi moshi = new Moshi.Builder()
         .add(DefaultOnDataMismatchAdapter.newFactory(Suit.class, Suit.CLUBS))
         .build();

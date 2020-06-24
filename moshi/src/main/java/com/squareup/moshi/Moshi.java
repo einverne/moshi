@@ -193,6 +193,13 @@ public final class Moshi {
   public static final class Builder {
     final List<JsonAdapter.Factory> factories = new ArrayList<>();
 
+    /**
+     *
+     * @param type 不能为空
+     * @param jsonAdapter 不能为空
+     * @param <T>
+     * @return Builder
+     */
     public <T> Builder add(final Type type, final JsonAdapter<T> jsonAdapter) {
       if (type == null) throw new IllegalArgumentException("type == null");
       if (jsonAdapter == null) throw new IllegalArgumentException("jsonAdapter == null");
@@ -230,6 +237,11 @@ public final class Moshi {
       });
     }
 
+    /**
+     * 将 factory 添加到
+     * @param factory JsonAdapter.Factory
+     * @return Builder
+     */
     public Builder add(JsonAdapter.Factory factory) {
       if (factory == null) throw new IllegalArgumentException("factory == null");
       factories.add(factory);
